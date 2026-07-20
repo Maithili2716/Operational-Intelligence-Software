@@ -15,7 +15,11 @@
                    │
         ┌──────────┴──────────┐
         ▼                     ▼
- Repositories          Operational Context
+     Repositories          Operational Context
         │                     ▲
         │                     │
         └────── PostgreSQL ───┘
+
+        
+        
+        
