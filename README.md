@@ -1,6 +1,10 @@
 # Operational-Intelligence-Software
 
+
+
 **Architecture**
+                 
+
                  USER
                    │
                    ▼
