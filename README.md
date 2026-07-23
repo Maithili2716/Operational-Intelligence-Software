@@ -4,21 +4,25 @@
 
 **Architecture**
                  
-
-                 USER
-                   │
-                   ▼
-             Controllers
-                   │
-                   ▼
-         Application Services
-                   │
-        ┌──────────┴──────────┐
-        ▼                     ▼
-     Repositories          Operational Context
-        │                     ▲
-        │                     │
-        └────── PostgreSQL ───┘
+                PostgreSQL
+                    │
+                    ▼
+         Operational Model
+      (Ontology / Relationships)
+                    │
+                    ▼
+        Operational State
+     (Live Organization Instance)
+          ┌─────────┼─────────┐
+          ▼         ▼         ▼
+   Dependency   Risk Engine  State Views
+      Engine
+          └─────────┬─────────┘
+                    ▼
+           Decision Engine
+                    │
+                    ▼
+              Frontend UI
 
         
         
