@@ -1,5 +1,5 @@
 import PurchaseOrder from "./purchaseorder.js";
-import PurchaseOrderRepository from "./purchaseorderRepository.js";
+import PurchaseOrderRepository from "./purchaseordersRepository.js";
 
 export default{
     repository: PurchaseOrderRepository,

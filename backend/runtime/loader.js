@@ -11,7 +11,7 @@ export default class EntityLoader {
 
         const edges = module.entity.createEdges(row) ?? [];
         const entityState = module.entity.createState(row);
-        state.set(row.id, entityState);
+        state.set(node.id, entityState);
 
         }
 

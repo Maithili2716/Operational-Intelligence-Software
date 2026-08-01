@@ -1,4 +1,4 @@
-class ProjectState{
+export default class ProjectState{
      constructor(data){
           this.entityType="Project"
           this.owner= data.department_id;

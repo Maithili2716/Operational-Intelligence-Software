@@ -12,21 +12,32 @@ class ProjectRepository{
 
     async getActive(){
         const result = await pool.query(` 
-        SELECT p.*,
+        SELECT 
+            p.id,
+            p.name,
+            p.department_id,
+            p.supplier_id,
+            p.current_phase,
+            p.progress,
+            p.status,
+            p.due_date,
+            p.estimated_completion_date,
+            p.created_at,
+            p.updated_at,
         ARRAY_REMOVE(
         ARRAY_AGG(DISTINCT m.id),
         NULL
-        ) AS milestone_ids,
+        ) AS milestoneIds,
 
         ARRAY_REMOVE(
         ARRAY_AGG(DISTINCT b.id),
         NULL
-        ) AS bom_ids,
+        ) AS bomIds,
 
         ARRAY_REMOVE(
         ARRAY_AGG(DISTINCT w.id),
         NULL
-        ) AS work_order_ids
+        ) AS workOrderIds
 
         FROM projects p
 
@@ -38,6 +49,26 @@ class ProjectRepository{
 
         LEFT JOIN work_orders w
         ON w.project_id = p.id
+        WHERE p.status IN (
+            'PENDING',
+            'ONGOING',
+            'ON HOLD',
+            'FAILED'
+        )
+        GROUP BY
+            p.id,
+            p.name,
+            p.department_id,
+            p.supplier_id,
+            p.current_phase,
+            p.progress,
+            p.status,
+            p.due_date,
+            p.estimated_completion_date,
+            p.created_at,
+            p.updated_at
+
+        ORDER BY p.id;
         ` );
         return result.rows;
     }

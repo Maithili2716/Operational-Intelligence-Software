@@ -1,19 +1,19 @@
-import Node from "../../shared/runtimeModel/operationalGraph/node.js";
-import Edge from "../../shared/runtimeModel/operationalGraph/edge.js";
+import Node from "../../runtime/operationalGraph/node.js";
+import Edge from "../../runtime/operationalGraph/edge.js";
 import QualityInspectionState from "./state.js";
 
 export default class QualityInspection{
     static createNode(row){
         return new Node(
-            row.id,
+            `QUALITY:${row.id}`,
             "QUALITY_INSPECTION"
         );
     }
     static createEdges(row){
         return [
             new Edge(
-                row.id,
-                row.shipment_id,
+                `QUALITY:${row.id}`,
+                `SHIPMENT:${row.shipment_id}`,
                 "INSPECTS_SHIPMENT"
             )
         ];

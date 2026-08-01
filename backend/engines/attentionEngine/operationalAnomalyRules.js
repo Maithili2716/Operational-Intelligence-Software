@@ -11,9 +11,9 @@ export function evaluate(runtimeState){
         attention.push(
             ...checkImpossibleValues(context)
         );
-        attention.push(
+       /* attention.push(
             ...checkMissingCriticalData(context)
-        );
+        );*/
         attention.push(
             ...checkStateConflict(context)
         );
@@ -94,17 +94,23 @@ function checkStateConflict(context){
     ];
 }
 
-function checkMissingCriticalData(context){
-     
-}
-
+//function checkMissingCriticalData(context){}
 function checkImpossibleValues(context){
-     const{id,state}=context;
-
-     if(state.schedule){
-          if(state.schedule.estimatedCompletionDate<state.schedule.createdAt)
-            return [AttentionItem.createAttentionItem(context,"HIGH","OPERATIONAL","IMPOSSIBLE VALUES",`${context.entityType} ${id} state contains impossible values`)];
-     }
+    const { id, state } = context;
+    if (!state.schedule)
+        return [];
+    if (state.schedule.estimatedCompletionDate < state.schedule.createdAt){
+        return [
+            AttentionItem.createAttentionItem(
+                context,
+                "HIGH",
+                "OPERATIONAL",
+                "IMPOSSIBLE VALUES",
+                `${context.entityType} ${id} contains impossible schedule values`
+            )
+        ];
+    }
+    return [];
+}
         
 
-}

@@ -4,7 +4,7 @@ import DepartmentState from "./state.js";
 export default class Department{
     static createNode(row){
         return new Node(
-            row.id,
+            `DEPARTMENT:${row.id}`,
             "DEPARTMENT"
         );
     }

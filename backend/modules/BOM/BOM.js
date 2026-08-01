@@ -1,29 +1,29 @@
-import Node from "../../shared/runtimeModel/operationalGraph/node.js";
-import Edge from "../../shared/runtimeModel/operationalGraph/edge.js";
+import Node from "../../runtime/operationalGraph/node.js";
+import Edge from "../../runtime/operationalGraph/edge.js";
 import BOMState from "./state.js";
 
 export default class BOM{
     static createNode(row){
         return new Node(
-            row.id,
+            `BOM:${row.id}`,
             "BOM"
         );
     }
     static createEdges(row){
         return [
-            ...(row.material_ids ?? []).map(
+            ...(row.materialIds ?? []).map(
                 id =>
                     new Edge(
-                        row.id,
-                        id,
+                        `BOM:${row.id}`,
+                        `MATERIAL:${id}`,
                         "USES_MATERIAL"
                     )
             ),
-            ...(row.supplier_ids ?? []).map(
+            ...(row.supplierIds ?? []).map(
                 id =>
                     new Edge(
-                        row.id,
-                        id,
+                        `BOM:${row.id}`,
+                        `SUPPLIER:${id}`,
                         "REQUIRES_SUPPLIER"
                     )
             )

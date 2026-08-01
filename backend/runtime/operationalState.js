@@ -11,4 +11,7 @@ export default class OperationalState {
     remove(id) {
         this.states.delete(id);
     }
+    [Symbol.iterator]() {
+        return this.states[Symbol.iterator]();
+    }
 }

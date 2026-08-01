@@ -12,15 +12,28 @@ class BOMRepository{
 
     async getActive(){
         const result = await pool.query(`
-        SELECT b.*,
+        SELECT 
+        b.id,
+        b.project_id,
+        b.revision_no,
+        b.revision_flag,
+        b.owner,
+        b.approved_by,
+        b.approval_status,
+        b.mandatory_fields_complete,
+        b.status,
+        b.due_date,
+        b.estimated_completion_date,
+        b.created_at,
+        b.updated_at,
         ARRAY_REMOVE(
         ARRAY_AGG(DISTINCT bm.material_id),
         NULL
-        ) AS material_ids,
+        ) AS materialIds,
         ARRAY_REMOVE(
         ARRAY_AGG(DISTINCT bs.supplier_id),
         NULL
-        ) AS supplier_ids
+        ) AS supplierIds
         FROM bom b
         LEFT JOIN bom_materials bm
         ON bm.bom_id = b.id
@@ -32,8 +45,21 @@ class BOMRepository{
             'ON HOLD',
             'FAILED'
         )
+        GROUP BY 
+        b.id,
+        b.project_id,
+        b.revision_no,
+        b.revision_flag,
+        b.owner,
+        b.approved_by,
+        b.approval_status,
+        b.mandatory_fields_complete,
+        b.status,
+        b.due_date,
+        b.estimated_completion_date,
+        b.created_at,
+        b.updated_at
         ORDER BY b.id;
-        GROUP BY b.id
         
         `);
         return result.rows;

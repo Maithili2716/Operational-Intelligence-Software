@@ -1,10 +1,10 @@
-import Node from "../../shared/runtimeModel/operationalGraph/node.js";
+import Node from "../../runtime/operationalGraph/node.js";
 import SupplierState from "./state.js";
 
 export default class Supplier{
     static createNode(row){
         return new Node(
-            row.id,
+            `SUPPLIER:${row.id}`,
             "SUPPLIER"
         );
     }

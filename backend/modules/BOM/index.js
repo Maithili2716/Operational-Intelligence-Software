@@ -1,5 +1,5 @@
-import BOM from "./bom.js";
-import BOMRepository from "./bomRepository.js";
+import BOM from "./BOM.js";
+import BOMRepository from "./BOMRepository.js";
 
 export default{
     repository: BOMRepository,

@@ -1,6 +1,3 @@
-CREATE DATABASE erp;
-
--- Connect to erp before executing the remaining statements.
 CREATE TABLE departments(
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,

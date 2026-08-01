@@ -1,10 +1,10 @@
-import Node from "../../shared/runtimeModel/operationalGraph/node.js";
+import Node from "../../runtime/operationalGraph/node.js";
 import WorkOrderState from "./state.js";
 
 export default class WorkOrder{
     static createNode(row){
         return new Node(
-            row.id,
+            `WORK_ORDER:${row.id}`,
             "WORK_ORDER"
         );
     }

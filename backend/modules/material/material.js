@@ -1,10 +1,10 @@
-import Node from "../../shared/runtimeModel/operationalGraph/node.js";
+import Node from "../../runtime/operationalGraph/node.js";
 import MaterialState from "./state.js";
 
 export default class Material{
     static createNode(row){
         return new Node(
-            row.id,
+            `MATERIAL:${row.id}`,
             "MATERIAL"
         );
     }

@@ -12,7 +12,14 @@ class ProcurementRepository{
 
     async getActive(){
         const result = await pool.query(`
-            SELECT p.* ,
+            SELECT 
+            p.id ,
+            p.supplier_id,
+            p.status,
+            p.due_date,
+            p.estimated_completion_date,
+            p.created_at,
+            p.updated_at,
             ARRAY_REMOVE(
             ARRAY_AGG(DISTINCT pm.material_id),
             NULL
@@ -32,7 +39,14 @@ class ProcurementRepository{
             'ON HOLD',
             'FAILED'
         )
-        GROUP BY p.id
+        GROUP BY 
+            p.id ,
+            p.supplier_id,
+            p.status,
+            p.due_date,
+            p.estimated_completion_date,
+            p.created_at,
+            p.updated_at
         ORDER BY p.id;
         `);
         return result.rows;

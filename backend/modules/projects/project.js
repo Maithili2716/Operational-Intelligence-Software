@@ -1,41 +1,41 @@
-import Node from "../../runtimeModel/operationalGraph/node.js";
-import Edge from "../../runtimeModel/operationalGraph/edge.js"
+import Node from "../../runtime/operationalGraph/node.js";
+import Edge from "../../runtime/operationalGraph/edge.js"
 import ProjectState from "./state.js"
 
 export default class Project{
     static createNode(row){
-     return new Node(row.id,"PROJECT");
+     return new Node(`PROJECT:${row.id}`,"PROJECT");
 }
     static createEdges(row){
     return [
         new Edge(
-            row.id,
-            row.departmentId,
+            `PROJECT:${row.id}`,
+            `DEPARTMENT:${row.departmentId}`,
             "OWNED_BY"
         ),
         new Edge(
-            row.id,
-            row.supplierId,
+            `PROJECT:${row.id}`,
+            `SUPPLIER:${row.supplierId}`,
             "USES_SUPPLIER"
         ),
         ...(row.bomIds ?? []).map(id =>
             new Edge(
-                row.id,
-                id,
+                `PROJECT:${row.id}`,
+                `BOM:${id}`,
                 "HAS_BOM"
             )
         ),
         ...(row.milestoneIds ?? []).map(id =>
             new Edge(
-                row.id,
-                id,
+                `PROJECT:${row.id}`,
+                `MILESTONE:${id}`,
                 "HAS_MILESTONE"
             )
         ),
         ...(row.workOrderIds ?? []).map(id =>
             new Edge(
-                row.id,
-                id,
+                `PROJECT:${row.id}`,
+                `WORK_ORDER:${id}`,
                 "HAS_WORK_ORDER"
             )
         )

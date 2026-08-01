@@ -1,10 +1,10 @@
-import Node from "../../shared/runtimeModel/operationalGraph/node.js";
+import Node from "../../runtime/operationalGraph/node.js";
 import WarehouseState from "./state.js";
 
 export default class Warehouse{
     static createNode(row){
         return new Node(
-            row.id,
+            `WAREHOUSE:${row.id}`,
             "WAREHOUSE"
         );
     }
