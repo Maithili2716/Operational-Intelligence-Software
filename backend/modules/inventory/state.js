@@ -1,9 +1,13 @@
-
-class InventoryState{
-     constructor(data){      
-          this.available=data.available,
-          this.required=data.required,
-          this.LastUpdated=data.LastUpdated
-     
-     }
+export default class InventoryState{
+    constructor(data){
+        this.entityType = "INVENTORY";
+        this.materialId = data.material_id;
+        this.warehouseId = data.warehouse_id;
+        this.resource = {
+            available : data.available,
+            reserved : data.reserved,
+            required : data.required,
+            lastUpdated : data.last_updated
+        };
+    }
 }

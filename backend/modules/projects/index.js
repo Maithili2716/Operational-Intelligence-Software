@@ -1,7 +1,7 @@
 import Project from "./project.js"
-import projectRepository from "./projectRepository.js"
+import ProjectRepository from "./projectRepository.js"
 
 export default{
-     repository:projectRepository,
+     repository:ProjectRepository,
      entity:Project
 }
