@@ -21,6 +21,7 @@ export default function useSelection() {
         useState(null);
     const [selectedNode, setSelectedNode] =
         useState(null);
+    const [selectedMitigation,setSelectedMitigation] = useState(null);
 
     // =========================================
     // Right Panel State
@@ -59,8 +60,15 @@ export default function useSelection() {
     function selectNode(node) {
         setSelectedNode(node);
     }
+    function selectMitigation(mitigation) {
+    setSelectedMitigation(mitigation);
+    }
+    function clearMitigationSelection() {
+    setSelectedMitigation(null);
+    }
     function clearNodeSelection() {
         setSelectedNode(null);
+        setSelectedMitigation(null);
     }
     // =========================================
     // Clear Entire Workspace Selection
@@ -88,6 +96,9 @@ export default function useSelection() {
         selectedNode,
         selectNode,
         clearNodeSelection,
+        selectedMitigation,
+        selectMitigation,
+        clearMitigationSelection,
         // Inspection
         isInspectionOpen,
         openInspection,

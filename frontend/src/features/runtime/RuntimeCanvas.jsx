@@ -1,4 +1,8 @@
-import { useMemo } from "react";
+import {
+    useMemo,
+    useEffect,
+    useRef
+} from "react";
 
 import ReactFlow, {
     Background
@@ -30,6 +34,7 @@ export default function RuntimeCanvas({
     onNodeSelect,
     onPaneClick
 }) {
+    const scrollContainerRef = useRef(null);
     const graph = useMemo(() => {
         if (!runtime) {
             return {
@@ -56,6 +61,39 @@ export default function RuntimeCanvas({
         hoveredNode,
       hoveredEdge
     ]);
+
+    useEffect(() => {
+    const selectedEntity =
+        selectedAttention?.entityId ??
+        selectedAction?.entityId ??
+        selectedNode?.id;
+    if (!selectedEntity)
+        return;
+    const node = graph.nodes.find(
+        n => n.id === selectedEntity
+    );
+    if (!node)
+        return;
+    scrollContainerRef.current?.scrollTo({
+        left: Math.max(
+            node.position.x - 250,
+            0
+        ),
+        behavior: "smooth"
+        });
+    }, [
+        graph.nodes,
+        selectedAttention,
+        selectedAction,
+        selectedNode
+    ]);
+    function handlePaneClick() {
+    onPaneClick();
+    scrollContainerRef.current?.scrollTo({
+        left: 0,
+        behavior: "smooth"
+    });
+    }
     return (
         <section
             className="
@@ -69,6 +107,7 @@ export default function RuntimeCanvas({
             "
         >
             <div
+             ref={scrollContainerRef}
                 className="
                     h-full
                     w-full
@@ -116,7 +155,7 @@ export default function RuntimeCanvas({
 
                             onNodeSelect(node)
                         }
-                        onNodeMouseEnter={(_, node) =>
+                        onNodeMouseEnter={(event, node) =>
                             onNodeHover({...node,
                             hoverPosition: {
                             x: event.clientX,
@@ -132,9 +171,8 @@ export default function RuntimeCanvas({
                         onEdgeMouseLeave={() =>
                             onEdgeHover(null)
                         }
-                        onPaneClick={() => {
-                            onPaneClick();
-                        }}
+                        onPaneClick={handlePaneClick
+                        }
                     >
                         <Background
                             variant="dots"

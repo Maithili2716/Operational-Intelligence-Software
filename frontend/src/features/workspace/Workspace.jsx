@@ -1,134 +1,17 @@
 import useWorkspace from "../../hooks/useWorkspace";
 import useSelection from "../../hooks/useSelection";
-import useInspectionExecution from "../../hooks/useInspectionExecution";
+import useWorkflow from "../../hooks/useWorkflow";
 
 import Header from "./Header";
-
-/*import AttentionList from "../attention/AttentionList/AttentionList";
-import ActionList from "../action/ActionList/ActionList";*/
+import AttentionPanel from "../attention/AttentionPanel";
+import AttentionHoverCard from "../attention/AttentionHoverCard";
 
 import RuntimeCanvas from "../runtime/RuntimeCanvas";
 import RuntimeStateCard from "../runtime/RuntimeStateCard";
-/*import InspectionPanel from "../inspection/InspectionPanel/InspectionPanel";*/
 
-/*export default function Workspace() {
-    const {
-        runtime,
-        attention,
-        action,
-        loading,
-        error,
-        refreshWorkspace
-    } = useWorkspace();
+import InspectionView from "../Inspection/InspectionView";
+import WorkflowPanel from "./WorkflowPanel";
 
-    const {
-        hoveredAttention,
-        setHoveredAttention,
-        hoveredAction,
-        setHoveredAction,
-        hoveredNode,
-        setHoveredNode,
-        hoveredEdge,
-        setHoveredEdge,
-        selectedAttention,
-        selectedAction,
-        selectedNode,
-        selectNode,
-        isInspectionOpen,
-        openInspection,
-        closeInspection,
-        isExecutionOpen,
-        openExecution,
-        closeExecution,
-        clearSelection
-    } = useSelection();
-    const {
-      inspection,
-        inspectionLoading,
-        loadInspection,
-        execution,
-        executionLoading,
-        loadExecution,
-        clearPanel
-    } = useInspectionExecution();
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-slate-950" />
-        );
-    }
-    if (error) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-slate-950 text-red-400">
-                {error.message}
-            </div>
-        );
-    }
-
-    return (
-        <div className="min-h-screen bg-slate-950 text-slate-100">
-            <Header />
-            <main className="mx-auto flex h-[calc(100vh-72px)] max-w-[1800px] gap-6 px-6 pb-6">
-                {/* Left Sidebar *//*}
-                <aside className="flex w-[22%] min-w-[300px] flex-col overflow-y-auto">
-                    <AttentionList
-                        attention={attention}
-                        selectedAttention={selectedAttention}
-                        hoveredAttention={hoveredAttention}
-                        onHover={setHoveredAttention}
-                        onSelect={async (item) => {
-                            openInspection(item);
-                            await loadInspection(item.id);
-                        }}
-                    />
-                    <ActionList
-                        action={action}
-                        selectedAction={selectedAction}
-                        hoveredAction={hoveredAction}
-                        onHover={setHoveredAction}
-                        onSelect={async (item) => {
-                            openExecution(item);
-                          await loadExecution(item.id);
-                        }}
-                    />
-                </aside>*/
-
-              /*  {/* Runtime *//*}
-                <section className="flex w-[60%] flex-col">
-                    <RuntimeCanvas
-                        runtime={runtime}
-                        selectedAttention={selectedAttention}
-                        selectedAction={selectedAction}
-                        selectedNode={selectedNode}
-                        hoveredNode={hoveredNode}
-                        hoveredEdge={hoveredEdge}
-                        onNodeHover={setHoveredNode}
-                        onEdgeHover={setHoveredEdge}
-                        onNodeSelect={selectNode}
-                    />
-                </section>
-                {/* Inspection / Execution *//*}
-                <aside className="w-[18%] min-w-[340px]">
-                    <InspectionPanel
-                        inspection={inspection}
-                        execution={execution}
-                      inspectionLoading={inspectionLoading}
-                        executionLoading={executionLoading}
-                        isInspectionOpen={isInspectionOpen}
-                        isExecutionOpen={isExecutionOpen}
-                        onClose={() => {
-                            closeInspection();
-                            closeExecution();
-                            clearPanel();
-                            clearSelection();
-                        }}
-                      refreshWorkspace={refreshWorkspace}
-                    />
-                </aside>
-            </main>
-        </div>
-    );
-}
-    */
 
 export default function Workspace() {
     const {
@@ -153,24 +36,20 @@ export default function Workspace() {
         selectedAction,
         selectedNode,
         selectNode,
-        isInspectionOpen,
-        openInspection,
-        closeInspection,
-        isExecutionOpen,
-        openExecution,
-        closeExecution,
-        clearSelection,
-        clearNodeSelection
+        openInspection: selectAttention,
+        clearSelection
     } = useSelection();
     const {
-      inspection,
-        inspectionLoading,
-        loadInspection,
-        execution,
-        executionLoading,
-        loadExecution,
-        clearPanel
-    } = useInspectionExecution();
+        workflowStage,
+        inspection,
+        loading:workflowLoading,
+        openInspection:openWorkflow,
+        reviewChanges,
+        backToInspection,
+        beginCommit,
+        resetWorkflow
+    } = useWorkflow();
+
     if (loading) {
         return (
             <div className="min-h-screen bg-slate-950" />
@@ -183,18 +62,39 @@ export default function Workspace() {
             </div>
         );
     }
+    async function handleAttentionSelect(attentionItem) {
+    if (selectedAttention?.id === attentionItem.id){
+        return;
+    }
+        selectAttention(attentionItem);
+        await openWorkflow(attentionItem.id);
+    }
+
+    function handlePaneClick() {
+    clearSelection();
+    resetWorkflow();
+    }
+
 
     return (
-        <div className="min-h-screen bg-slate-950 text-slate-100">
+        <div className="h-screen overflow-hidden bg-slate-950 text-slate-10">
             <Header />
-            <main className="mx-auto flex h-[calc(100vh-72px)] max-w-[1800px] gap-6 px-6 pb-6">
+            <main className="mx-auto flex h-[calc(100vh-72px)] overflow-hidden max-w-[1800px] gap-6 px-6 pb-6">
                 {/* Left Sidebar */}
-                <aside className="flex w-[22%] min-w-[300px] flex-col overflow-y-auto">
-                 Attention and Action
-                </aside>
-
-                {/* Runtime */}
-                <section className="flex w-[60%] flex-col">
+                <aside className={`flex min-w-[300px]
+                flex-col overflow-y-auto w-[22%]
+            `}>             
+            <AttentionPanel
+                attention={attention}
+                hoveredAttention={hoveredAttention}
+                selectedAttention={selectedAttention}
+                setHoveredAttention={setHoveredAttention}
+                onAttentionSelect={handleAttentionSelect}
+            />
+            </aside>
+         
+            {/* Runtime */}
+                <section className={`flex w-[60%]  flex-col`}>
                     <RuntimeCanvas
                         runtime={runtime}
                         selectedAttention={selectedAttention}
@@ -205,7 +105,7 @@ export default function Workspace() {
                         onNodeHover={setHoveredNode}
                         onEdgeHover={setHoveredEdge}
                         onNodeSelect={selectNode}
-                        onPaneClick={clearNodeSelection}
+                        onPaneClick={handlePaneClick}
                     />
                 </section>
                 <RuntimeStateCard
@@ -217,9 +117,45 @@ export default function Workspace() {
                 position={
                 hoveredNode?.hoverPosition }
                 />
-                {/* Inspection / Execution */}
-                <aside className="w-[18%] min-w-[340px]">
-                  Inspection panel
+                <AttentionHoverCard
+                attention={hoveredAttention}
+                position={hoveredAttention?.hoverPosition}
+                />
+             
+            {/* Inspection / Execution */}
+            <aside className="w-[18%] min-w-[340px]">
+            <WorkflowPanel inspection={inspection}>
+            {
+            workflowStage === "inspection"
+            ? (
+                <InspectionView
+                    inspection={inspection}
+                    onReviewChanges={
+                        reviewChanges
+                    }
+                />
+            )
+
+           /* : workflowStage === "execution"
+            ? (
+                <ExecutionView
+                    inspection={inspection}
+                    onBack={
+                        backToInspection
+                    }
+                    onCommit={
+                        beginCommit /*onCommit={async () => {
+                            await commitExecution();
+                            refreshWorkspace();
+                            resetWorkflow();
+                        }
+                        }
+                    }
+                />
+            )*/
+            : null
+            }
+            </WorkflowPanel>
                 </aside>
             </main>
         </div>
