@@ -6,10 +6,16 @@ import Header from "./Header";
 import AttentionPanel from "../attention/AttentionPanel";
 import AttentionHoverCard from "../attention/AttentionHoverCard";
 
+import ActionPanel from "../action/ActionPanel";
+import ActionHoverCard from "../action/ActionHoverCard";
+
 import RuntimeCanvas from "../runtime/RuntimeCanvas";
 import RuntimeStateCard from "../runtime/RuntimeStateCard";
 
 import InspectionView from "../Inspection/InspectionView";
+import ExecutionView from "../execution/ExecutionView";
+import ActionExecutionView
+from "../execution/ActionExecutionView";
 import WorkflowPanel from "./WorkflowPanel";
 
 
@@ -37,13 +43,16 @@ export default function Workspace() {
         selectedNode,
         selectNode,
         openInspection: selectAttention,
+        openExecution:selectAction,
         clearSelection
     } = useSelection();
     const {
         workflowStage,
         inspection,
+        execution,
         loading:workflowLoading,
         openInspection:openWorkflow,
+        openExecution,
         reviewChanges,
         backToInspection,
         beginCommit,
@@ -70,6 +79,13 @@ export default function Workspace() {
         await openWorkflow(attentionItem.id);
     }
 
+    async function handleActionSelect(actionItem) {
+    if (selectedAction?.id === actionItem.id) {
+        return;
+    }
+    selectAction(actionItem);
+    await openExecution(actionItem.id);
+    }
     function handlePaneClick() {
     clearSelection();
     resetWorkflow();
@@ -79,10 +95,10 @@ export default function Workspace() {
     return (
         <div className="h-screen overflow-hidden bg-slate-950 text-slate-10">
             <Header />
-            <main className="mx-auto flex h-[calc(100vh-72px)] overflow-hidden max-w-[1800px] gap-6 px-6 pb-6">
+            <main className="mx-auto flex h-[calc(100vh-72px)] overflow-hidden max-w-[1800px] gap-6 px-3 pb-6">
                 {/* Left Sidebar */}
                 <aside className={`flex min-w-[300px]
-                flex-col overflow-y-auto w-[22%]
+                flex-col  w-[22%]
             `}>             
             <AttentionPanel
                 attention={attention}
@@ -91,10 +107,17 @@ export default function Workspace() {
                 setHoveredAttention={setHoveredAttention}
                 onAttentionSelect={handleAttentionSelect}
             />
+            <ActionPanel
+                action={action}
+                hoveredAction={hoveredAction}
+                selectedAction={selectedAction}
+                setHoveredAction={setHoveredAction}
+                onActionSelect={handleActionSelect}
+            />
             </aside>
          
             {/* Runtime */}
-                <section className={`flex w-[60%]  flex-col`}>
+                <section className={`flex-1 flex min-w-0  flex-col`}>
                     <RuntimeCanvas
                         runtime={runtime}
                         selectedAttention={selectedAttention}
@@ -121,9 +144,13 @@ export default function Workspace() {
                 attention={hoveredAttention}
                 position={hoveredAttention?.hoverPosition}
                 />
+                <ActionHoverCard
+                action={hoveredAction}
+                position={hoveredAction?.hoverPosition}
+            />
              
             {/* Inspection / Execution */}
-            <aside className="w-[18%] min-w-[340px]">
+            <aside className="shrink-0 w-[340px] flex flex-col min-h-0">
             <WorkflowPanel inspection={inspection}>
             {
             workflowStage === "inspection"
@@ -136,7 +163,7 @@ export default function Workspace() {
                 />
             )
 
-           /* : workflowStage === "execution"
+            : workflowStage === "execution"
             ? (
                 <ExecutionView
                     inspection={inspection}
@@ -144,15 +171,19 @@ export default function Workspace() {
                         backToInspection
                     }
                     onCommit={
-                        beginCommit /*onCommit={async () => {
-                            await commitExecution();
-                            refreshWorkspace();
-                            resetWorkflow();
+                        beginCommit 
                         }
-                        }
-                    }
+                    
                 />
-            )*/
+            )
+            : workflowStage === "actionExecution"
+            ? (
+                <ActionExecutionView
+                    execution={execution}
+                    onBack={resetWorkflow}
+                    onCommit={beginCommit}
+                />
+            )
             : null
             }
             </WorkflowPanel>

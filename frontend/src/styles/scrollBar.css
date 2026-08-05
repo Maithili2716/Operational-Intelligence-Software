@@ -1,0 +1,75 @@
+/* =========================================
+   Scroll Area
+   Hidden → Thin → Left
+   ========================================= */
+
+/* Wrapper */
+
+.left-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* Firefox */
+    scrollbar-width: none;
+    scrollbar-color: rgba(148,163,184,.45) transparent;
+
+    /* Move scrollbar left */
+    direction: rtl;
+}
+
+/* Restore content direction */
+
+.left-scroll > * {
+    direction: ltr;
+}
+
+/* Hide scrollbar initially */
+
+.left-scroll::-webkit-scrollbar {
+    width: 0px;
+    transition: width .2s ease;
+}
+
+.left-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.left-scroll::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 999px;
+}
+
+/* Show on hover */
+
+.left-scroll:hover {
+    scrollbar-width: thin;
+}
+
+.left-scroll:hover::-webkit-scrollbar {
+    width: 6px;
+}
+
+.left-scroll:hover::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.left-scroll:hover::-webkit-scrollbar-thumb {
+    background: rgba(148,163,184,.35);
+    border-radius: 999px;
+}
+
+.left-scroll:hover::-webkit-scrollbar-thumb:hover {
+    background: rgba(203,213,225,.55);
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.scroll-area:hover::-webkit-scrollbar-thumb {
+    background: rgba(148,163,184,.35);
+}

@@ -118,7 +118,7 @@ export default function RuntimeCanvas({
                 <div
                     className="h-full"
                     style={{
-                        minWidth: "1800px"
+                        minWidth: "1690px"
                     }}
                 >
                     <ReactFlow

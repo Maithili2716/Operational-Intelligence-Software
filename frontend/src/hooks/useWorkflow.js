@@ -6,6 +6,8 @@
 import { useState } from "react";
 import { getInspection }
     from "../api/inspectionApi";
+import { getExecution }
+    from "../api/executionApi";
 
 export default function useWorkflow() {
     // =====================================
@@ -26,6 +28,10 @@ export default function useWorkflow() {
     const [
         inspection,
         setInspection
+    ] = useState(null);
+    const [
+        execution,
+        setExecution
     ] = useState(null);
     const [
         loading,
@@ -69,13 +75,47 @@ export default function useWorkflow() {
         finally {
             setLoading(false);
         }
+    };
+
+    async function openExecution(actionId) {
+    try {
+
+        setLoading(true);
+        setError(null);
+
+        const response =
+            await getExecution(actionId);
+
+        if (!response.success) {
+            throw new Error(
+                response.error?.message ??
+                "Failed to load execution."
+            );
+        }
+
+        setExecution(response.data);
+
+        setWorkflowStage(
+            "actionExecution"
+        );
+
     }
+    catch (err) {
+        setError(err);
+    }
+    finally {
+        setLoading(false);
+    }
+    }
+
+
 
     // =====================================
     // Review Changes
     // =====================================
 
     function reviewChanges() {
+        console.log("review")
         setWorkflowStage(
             "execution"
         );
@@ -109,14 +149,17 @@ export default function useWorkflow() {
         setWorkflowStage(null);
         setLoading(false);
         setError(null);
+        setExecution(null);
 
     }
     return {
         workflowStage,
         inspection,
+        execution,
         loading,
         error,
         openInspection,
+        openExecution,
         reviewChanges,
         backToInspection,
         beginCommit,

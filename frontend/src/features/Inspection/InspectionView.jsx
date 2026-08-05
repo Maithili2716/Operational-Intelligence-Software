@@ -1,11 +1,13 @@
 // =========================================
 // Inspection View
-// Investigation Flow
+// Investigation Summary
 // =========================================
 
-import AnalysisCard from "./AnalysisCard";
-import ImpactCard from "./ImpactCard";
-import ResolutionCard from "./ResolutionCard";
+import InspectionSection from "./InspectionSection";
+
+import AnalysisSection from "./AnalysisSection";
+import ImpactSection from "./ImpactSection";
+import ResolutionSection from "./ResolutionSection";
 
 export default function InspectionView({
     inspection,
@@ -17,29 +19,67 @@ export default function InspectionView({
     return (
         <div
             className="
+                h-full
                 flex
                 flex-col
-                gap-5
             "
         >
-            <AnalysisCard
-                analysis={
-                    inspection.rootCauseAnalysis
+            {/* Analysis */}
+
+            <InspectionSection
+                title="Analysis"
+            >
+                <AnalysisSection
+                    analysis={
+                        inspection.rootCauseAnalysis
+                    }
+                />
+            </InspectionSection>
+
+            {/* Impact */}
+
+            <InspectionSection
+                title="Impact- Affected Entities"
+            >
+                <ImpactSection
+                    entities={
+                        inspection.affectedEntities
+                    }
+                />
+            </InspectionSection>
+
+            {/* Resolution */}
+
+            <InspectionSection
+                title="Resolution"
+                footer={
+                    <button
+                        onClick={
+                            onReviewChanges
+                        }
+                        className="
+                            ml-auto
+                            flex
+                            items-center
+                            gap-2
+                            text-sm
+                            font-medium
+                            text-cyan-300
+                            transition-colors
+                            hover:text-cyan-200
+                        "
+                    >
+                        Review Updates
+                        <span>→</span>
+                    </button>
                 }
-            />
-            <ImpactCard
-                entities={
-                    inspection.affectedEntities
-                }
-            />
-            <ResolutionCard
-                strategy={
-                    inspection.mitigationStrategy
-                }
-                onReviewChanges={
-                    onReviewChanges
-                }
-            />
+            >
+                <ResolutionSection
+                    strategy={
+                        inspection.mitigationStrategy
+                    }
+                />
+            </InspectionSection>
         </div>
     );
 }

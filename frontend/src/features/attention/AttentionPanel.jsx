@@ -17,11 +17,13 @@ export default function AttentionPanel({
         <aside
             className="
                 flex
+                 max-h-[50%]
                 h-full
                 flex-col
                 border-r
                 border-slate-800
                 bg-slate-950
+                left-scroll
             "
         >
             {/* Header */}

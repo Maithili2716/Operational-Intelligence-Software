@@ -46,5 +46,5 @@ export const ENTITY_COLORS = {
 export const GRAPH = {
     MIN_ZOOM: 0.8,
     MAX_ZOOM: 1.2,
-    FIT_PADDING: 0.18
+    FIT_PADDING: 0.08
 };
