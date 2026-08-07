@@ -4,13 +4,14 @@
 //        ↓
 // React Flow Model
 // =========================================
-import { getLayoutedGraph } from "./graphLayout";
+import { getLayoutedGraph } from "./layout/graphLayout";
 
 export function buildRuntimeGraph(
     graph,
     state,
     selection
 ) {
+    
     const {
         selectedAttention,
         selectedAction,
@@ -56,77 +57,77 @@ export function buildRuntimeGraph(
         });
     }
 }
-    // =====================================
-    // React Flow Nodes
-    // =====================================
+    const layout = getLayoutedGraph(
+    graph.nodes,
+    graph.edges
+);
+    console.log("GRAPH LAYOUT:", layout);
+    
+    const nodes = layout.nodes.map(node => {
 
-    const nodes = graph.nodes.map(node => {
-        const isHighlighted =
-            highlightedNodes.has(node.id);
-
-        const isSelected =
-            selectedNode?.id === node.id  ;
-
-        const faded =
-            hoveredNode
+    const faded =
+        hoveredNode
             ? hoveredNode.id !== node.id
-            :startNode ? !highlightedNodes.has(node.id)
-            : false;
+            : startNode
+                ? !highlightedNodes.has(node.id)
+                : false;
+    return {
+        id: node.id,
+     type: "runtimeNode",
+        position: node.position,
+        sourcePosition: node.sourcePosition,
+        targetPosition: node.targetPosition,
 
-        return {
+        data: {
             id: node.id,
-            type: "runtimeNode",
-            position: {
-                x: 0,
-                y: 0
-            },
-            data: {
-                id: node.id,
-                entityType: node.type,
-                label: node.label ?? node.id,
-                state: state[node.id],
-                highlighted: isHighlighted,
-                selected: isSelected,
-                faded,
-                hovered:
-                    hoveredNode?.id === node.id
-            }
-        };
-    });
+            entityType: node.type,
+            label: node.label ?? node.id,
+            state: state[node.id],
+            highlighted:
+                highlightedNodes.has(node.id),
+            selected:
+                selectedNode?.id === node.id,
+            faded,
+            hovered:
+                hoveredNode?.id === node.id
+        }
+    };
+});
 
-    // =====================================
-    // React Flow Edges
-    // =====================================
-    const edges = graph.edges.map(edge => {
-        const highlighted =
-            highlightedEdges.has(
-            `${edge.from}-${edge.to}`   
-    );
-        return {
-            id:
-                `${edge.from}-${edge.to}`,
-            source:
-                edge.from,
-            target:
-                edge.to,
-            type:
-                "runtimeEdge",
-            data: {
-                relationship:
-                    edge.relationship,
-                highlighted,
-                faded:
-                   startNode
-                    ? !highlighted: false,
-                hovered:
-                    hoveredEdge?.id ===
-                    `${edge.from}-${edge.to}`
-            }
-        };
-    });
 
-    return getLayoutedGraph(
-        nodes,
-        edges
-    );
+    const edges = layout.edges.map(edge => {
+    const highlighted =
+        highlightedEdges.has(
+            `${edge.from}-${edge.to}`
+        );
+    return {
+        id:
+            `${edge.from}-${edge.to}`,
+        source:
+            edge.from,
+        target:
+            edge.to,
+        type:
+            "runtimeEdge",
+        data: {
+            relationship:
+                edge.relationship,
+            highlighted,
+            faded:
+                startNode
+                    ? !highlighted
+                    : false,
+            hovered:
+                hoveredEdge?.id ===
+                `${edge.from}-${edge.to}`
+        }
+    };
+});
+    return {
+    nodes,
+    edges,canvas:layout.scene.canvas,
+     
+
+};
+
 }

@@ -42,6 +42,8 @@ export default function RuntimeCanvas({
                 edges: []
             };
      }
+     
+
         return buildRuntimeGraph(
          runtime.graph,
             runtime.state,
@@ -75,10 +77,15 @@ export default function RuntimeCanvas({
     if (!node)
         return;
     scrollContainerRef.current?.scrollTo({
-        left: Math.max(
-            node.position.x - 250,
+        left:
+        Math.max(
+            node.position.x-350,
             0
         ),
+        top:
+        Math.max(
+            node.position.y-220,
+            0),
         behavior: "smooth"
         });
     }, [
@@ -90,15 +97,19 @@ export default function RuntimeCanvas({
     function handlePaneClick() {
     onPaneClick();
     scrollContainerRef.current?.scrollTo({
-        left: 0,
+          left:0,
+          top:0,
         behavior: "smooth"
     });
     }
+    console.log("RUNTIME GRAPH:", graph);
+    console.log("GRAPH TO REACTFLOW");
+console.log(graph.nodes[0]);
+console.log(graph.edges[0]);
     return (
         <section
             className="
                 h-[72vh]
-                w-full
                 overflow-hidden
                 rounded-2xl
                 border
@@ -109,16 +120,16 @@ export default function RuntimeCanvas({
             <div
              ref={scrollContainerRef}
                 className="
+                     w-full
                     h-full
-                    w-full
                     overflow-x-auto
                     overflow-y-auto
                 "
             >
-                <div
-                    className="h-full"
+                <div className=""
                     style={{
-                        minWidth: "1690px"
+                        width: graph.canvas.width,
+                        height: graph.canvas.height
                     }}
                 >
                     <ReactFlow
@@ -126,11 +137,11 @@ export default function RuntimeCanvas({
                         edges={graph.edges}
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}
-                        fitView
+                    
                         fitViewOptions={{
                             padding: GRAPH.FIT_PADDING
                         }}
-
+                        
                         defaultViewport={{
                             x: 0,
                           y: 0,

@@ -23,7 +23,7 @@ export default function ActionPanel({
                 flex
                 flex-col
                 min-h-0
-                left-scroll
+                
             "
         >
             {/* Header */}

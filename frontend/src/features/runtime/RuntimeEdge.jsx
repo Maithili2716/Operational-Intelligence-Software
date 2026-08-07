@@ -17,6 +17,19 @@ export default function RuntimeEdge({
             hash += c.charCodeAt(0);
         return ((hash % 5) - 2) * 10;
     }, [id]);
+    const SUPPORT_RELATIONSHIPS = new Set([
+    "OWNED_BY",
+    "PROCURES_MATERIAL",
+    "PROVIDED_BY_SUPPLIER",
+    "FOR_MATERIAL",
+    "STORED_IN",
+    "ORDERS_MATERIAL"
+]);
+
+    const isSupport =
+        SUPPORT_RELATIONSHIPS.has(
+            data.relationship
+    );
     const midX =
         sourceX +
         (targetX - sourceX) * 0.45 +

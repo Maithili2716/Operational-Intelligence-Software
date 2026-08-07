@@ -23,7 +23,7 @@ export default function AttentionPanel({
                 border-r
                 border-slate-800
                 bg-slate-950
-                left-scroll
+                
             "
         >
             {/* Header */}
