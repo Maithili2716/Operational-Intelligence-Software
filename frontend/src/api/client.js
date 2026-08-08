@@ -10,6 +10,7 @@ export async function api(path) {
             "Request failed"
         );
     }
+    
 
     return response.json();
 }

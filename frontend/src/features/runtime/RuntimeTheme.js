@@ -33,18 +33,42 @@ export const EDGE = {
 };
 
 export const ENTITY_COLORS = {
-    PROJECT: "#06b6d4",
-    BOM: "#8b5cf6",
-    MILESTONE: "#f59e0b",
-    SHIPMENT: "#f97316",
-    INVENTORY: "#3b82f6",
-    SUPPLIER: "#22c55e",
-    PURCHASE_ORDER: "#ec4899",
-    QUALITY_CHECK: "#ef4444"
+    PROJECT: "#06b6d4",          // Cyan
+    BOM: "#8b5cf6",              // Violet
+    MILESTONE: "#f59e0b",        // Amber
+    SHIPMENT: "#f97316",         // Orange
+    INVENTORY: "#3b82f6",        // Blue
+    SUPPLIER: "#22c55e",         // Green
+    PURCHASE_ORDER: "#ec4899",  // Pink
+    QUALITY_CHECK: "#ef4444",    // Red
+
+    DEPARTMENT: "#14b8a6",       // Teal
+    MATERIAL: "#84cc16"   
 };
 
 export const GRAPH = {
     MIN_ZOOM: 0.8,
     MAX_ZOOM: 1.2,
     FIT_PADDING: 0.08
+};
+
+export const NODE_EDGE = {
+    WIDTH: 170,
+    HEIGHT: 72
+};
+
+export const RELATIONSHIP_LAYOUT = {
+
+    PROCURES_MATERIAL: "vertical",
+
+    STORED_IN: "vertical",
+
+    USES_SUPPLIER: "horizontal",
+
+    GENERATES_PURCHASE_ORDER: "horizontal",
+
+    FULFILLED_BY_SHIPMENT: "horizontal",
+
+    OWNED_BY: "vertical"
+
 };

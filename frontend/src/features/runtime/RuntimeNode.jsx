@@ -23,6 +23,11 @@ export default function RuntimeNode({ data }) {
                 type="target"
                 position={Position.Left}
                 className="opacity-0"
+                style={{
+                width: 8,
+                height: 8,
+                right: -4
+    }}
             />
             <div
                 className={`
@@ -94,6 +99,11 @@ export default function RuntimeNode({ data }) {
                 type="source"
                 position={Position.Right}
                 className="opacity-0"
+                style={{
+                width: 8,
+                height: 8,
+                left: -4
+    }}
             />
         </>
     );

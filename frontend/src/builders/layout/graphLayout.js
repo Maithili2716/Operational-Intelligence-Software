@@ -133,8 +133,7 @@ export function getLayoutedGraph(
     
 
     //---------------------------------------
-console.log("LAYOUT NODES:", layout.length);
-console.log("FIRST NODE:", layout[0]);
+
 return {
 
     nodes:

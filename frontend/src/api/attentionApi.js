@@ -1,10 +1,5 @@
-import attention from "../mocks/attention.mock.js";
-import { success } from "../utils/response";
+import { api } from "./client";
 
 export async function getAttention() {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(success(attention));
-        }, 300);
-    });
+    return api("/attention");
 }

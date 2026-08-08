@@ -61,7 +61,7 @@ export function buildRuntimeGraph(
     graph.nodes,
     graph.edges
 );
-    console.log("GRAPH LAYOUT:", layout);
+    
     
     const nodes = layout.nodes.map(node => {
 
@@ -71,6 +71,8 @@ export function buildRuntimeGraph(
             : startNode
                 ? !highlightedNodes.has(node.id)
                 : false;
+
+    
     return {
         id: node.id,
      type: "runtimeNode",
@@ -114,7 +116,9 @@ export function buildRuntimeGraph(
                 edge.relationship,
             highlighted,
             faded:
-                startNode
+                hoveredNode
+                    ? true
+                    : startNode
                     ? !highlighted
                     : false,
             hovered:

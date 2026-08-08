@@ -11,7 +11,6 @@ export default function useWorkspace() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const loadWorkspace = useCallback(async () => {
-        console.log("Loading workspace...");
         try {
             setLoading(true);
             setError(null);

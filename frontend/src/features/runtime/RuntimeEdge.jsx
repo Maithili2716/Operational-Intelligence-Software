@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { BaseEdge, EdgeLabelRenderer } from "reactflow";
 
 import { EDGE } from "./RuntimeTheme";
+import { RELATIONSHIP_LAYOUT } from "./RuntimeTheme";
 
 export default function RuntimeEdge({
     id,
@@ -17,33 +18,47 @@ export default function RuntimeEdge({
             hash += c.charCodeAt(0);
         return ((hash % 5) - 2) * 10;
     }, [id]);
-    const SUPPORT_RELATIONSHIPS = new Set([
-    "OWNED_BY",
-    "PROCURES_MATERIAL",
-    "PROVIDED_BY_SUPPLIER",
-    "FOR_MATERIAL",
-    "STORED_IN",
-    "ORDERS_MATERIAL"
-]);
-
-    const isSupport =
-        SUPPORT_RELATIONSHIPS.has(
-            data.relationship
-    );
+    
+  
     const midX =
         sourceX +
         (targetX - sourceX) * 0.45 +
         laneOffset;
-        const relationshipX = (sourceX + targetX) / 2;
-        const relationshipY = Math.min(sourceY,targetY)-14;
+    let relationshipX;
+    let relationshipY;
+    switch (
+    RELATIONSHIP_LAYOUT[
+        data.relationship
+    ]
+) {
+
+    case "vertical":
+
+        relationshipX = midX;
+        relationshipY =
+            (sourceY+targetY + midX)/2;
+
+        break;
+
+    default:
+
+        relationshipX =
+            (targetX+midX)/2;
+
+        relationshipY =
+            sourceY-14;
+
+}
+    
     const path =
 
         `M ${sourceX} ${sourceY}
          L ${midX} ${sourceY}
          L ${midX} ${targetY}
          L ${targetX} ${targetY}`;
-    const labelX = midX;
-    const labelY = (sourceY + targetY) / 2;
+
+   
+    
     const stroke =
         data.highlighted
             ? EDGE.HIGHLIGHT_COLOR
@@ -58,14 +73,15 @@ export default function RuntimeEdge({
             : data.highlighted
             ? EDGE.HIGHLIGHT_OPACITY
             : EDGE.OPACITY;
+            
     function formatRelationship(value) {
     return value
         .replaceAll("_", " ");
     }
+    
     const showRelationship =
     data.highlighted &&
-    Math.abs(sourceY - targetY) < 40;
-    
+    RELATIONSHIP_LAYOUT[data.relationship] !== undefined;
     return (
         <>
             <BaseEdge
@@ -89,13 +105,15 @@ export default function RuntimeEdge({
                     <div
                         className="
                         absolute
-                        flex
-                        items-center
-                        gap-2
-                        whitespace-nowrap
-                        text-[9px]
-                        font-medium
-                        text-slate-400
+z-50
+rounded
+bg-slate-950/90
+px-2
+py-[1px]
+text-[9px]
+font-medium
+text-slate-300
+whitespace-nowrap
                         "
                         style={{
                             transform:

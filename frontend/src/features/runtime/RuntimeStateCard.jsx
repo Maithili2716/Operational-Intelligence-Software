@@ -31,6 +31,14 @@ export default function RuntimeStateCard({
 
             {/* Properties */}
             <div className="space-y-0.5">
+                <>
+                {state.name && (
+        <div className="mb-3">
+            <span className="text-xs font-semibold text-cyan-400">
+                {state.name}
+            </span>
+        </div>
+    )}
                 {
                     Object.entries(state)
                         .filter(([key]) => key !== "name")
@@ -49,6 +57,7 @@ export default function RuntimeStateCard({
                             </div>
                         ))
                 }
+                </>
             </div>
         </div>
     );

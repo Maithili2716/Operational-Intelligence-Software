@@ -102,10 +102,7 @@ export default function RuntimeCanvas({
         behavior: "smooth"
     });
     }
-    console.log("RUNTIME GRAPH:", graph);
-    console.log("GRAPH TO REACTFLOW");
-console.log(graph.nodes[0]);
-console.log(graph.edges[0]);
+    
     return (
         <section
             className="
