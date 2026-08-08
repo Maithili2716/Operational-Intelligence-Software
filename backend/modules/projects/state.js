@@ -1,6 +1,6 @@
 export default class ProjectState{
      constructor(data){
-          this.entityType="Project"
+          this.entityType="PROJECT"
           this.owner= data.department_id;
           this.currentPhase= data.current_phase
           this.schedule={

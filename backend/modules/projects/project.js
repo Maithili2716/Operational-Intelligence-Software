@@ -10,12 +10,12 @@ export default class Project{
     return [
         new Edge(
             `PROJECT:${row.id}`,
-            `DEPARTMENT:${row.departmentId}`,
+            `DEPARTMENT:${row.department_id}`,
             "OWNED_BY"
         ),
         new Edge(
             `PROJECT:${row.id}`,
-            `SUPPLIER:${row.supplierId}`,
+            `SUPPLIER:${row.supplier_id}`,
             "USES_SUPPLIER"
         ),
         ...(row.bomIds ?? []).map(id =>

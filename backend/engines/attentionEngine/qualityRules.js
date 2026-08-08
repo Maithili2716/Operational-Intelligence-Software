@@ -48,7 +48,7 @@ function checkHighDefectRate(context){
      const defectRate = (faultyPieces / totalPieces) * 100;
     if( defectRate < 5)
      return[];
-    return [AttentionItem.createAttentionItem(context,"HIGH","QUALITY","HIGH DEFECT RATE",`Inspection ${context.id} has a defect rate of ${defectRate.toFixed(2)}%`)];
+    return [AttentionItem.createAttentionItem(context,"HIGH","QUALITY","High Defect Rate",`Inspection ${context.id} has a defect rate of ${defectRate.toFixed(2)}%`)];
 
 }
 
@@ -64,7 +64,7 @@ function checkInspectionPending(context){
         (now - updatedAt) / (1000 * 60 * 60 * 24);
     if(days <= 7)
         return [];
-    return [AttentionItem.createAttentionItem(context,"MEDIUM","QUALITY","INSPECTION PENDING",`Inspection ${context.id} has been pending for ${Math.floor(days)} days`)];
+    return [AttentionItem.createAttentionItem(context,"MEDIUM","QUALITY","Inspection Pending",`Inspection ${context.id} has been pending for ${Math.floor(days)} days`)];
 
 }
 
@@ -72,7 +72,7 @@ function checkInspectionFailure(context){
     const { quality } = context;
     if(quality.status !=="FAILED")
      return[];
-    return [AttentionItem.createAttentionItem(context,"CRITICAL","QUALITY","INSPECTION FAILURE",`Inspection ${context.id} has failed`)];
+    return [AttentionItem.createAttentionItem(context,"CRITICAL","QUALITY","Inspection Failure",`Inspection ${context.id} has failed`)];
 
 }
 
@@ -82,7 +82,7 @@ function checkInventoryNotUpdated(context){
      return[];
     if(quality.inventoryUpdatedStatus ==="COMPLETED")
      return[]
-    return [AttentionItem.createAttentionItem(context,"HIGH","QUALITY","INVENTORY NOT UPDATED",`Inspection ${context.id} is completed but inventory not updated yet`)];
+    return [AttentionItem.createAttentionItem(context,"HIGH","QUALITY","Inventory Not Updated",`Inspection ${context.id} is completed but inventory not updated yet`)];
 
 }
 
@@ -92,6 +92,6 @@ function checkSupplierNotNotified(context){
      return[];
     if(quality.notificationStatus ==="SENT")
      return[]
-    return [AttentionItem.createAttentionItem(context,"LOW","QUALITY","SUPPLIER NOT NOTIFIED",`Inspection ${context.id} failed but supplier not updated yet`)];
+    return [AttentionItem.createAttentionItem(context,"LOW","QUALITY","Supplier Not Notified",`Inspection ${context.id} failed but supplier not updated yet`)];
 
 }

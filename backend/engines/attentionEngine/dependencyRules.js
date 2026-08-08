@@ -29,22 +29,26 @@ function createContext(edge, runtimeModel){
        dependentNode:runtimeModel.graph.findNode(edge.from),
        dependencyNode:runtimeModel.graph.findNode(edge.to),
        dependentState:runtimeModel.state.get(edge.from),
-       dependencyState:runtimeModel.state.get(edge.to)
+       dependencyState:runtimeModel.state.get(edge.to),
+        entityType: runtimeModel.graph.findNode(edge.from)?.type,
+        entityId: edge.from
     };
+    
 }
 
 function checkBlockedDependency(context){
      const {edge,dependencyState,dependentState}=context;
      if(!dependencyState?.schedule || !dependentState?.schedule)
           return[];
-     return [AttentionItem.createAttentionItem(context,"HIGH","DEPENDENCY","BLOCKED DEPENDENCY",`${edge.from} is waiting for ${edge.to}`)];
+     return [AttentionItem.createAttentionItem(context,"HIGH","DEPENDENCY","Blocked Dependency",`${edge.from} is waiting for ${edge.to}`,`${edge.from}:${edge.to}`)];
 
 }
 
 function checkMissingDependency(context){
      const{edge,dependencyNode}=context;
      if(!dependencyNode)
-    return [AttentionItem.createAttentionItem(context,"CRITICAL","DEPENDENCY","MISSING DEPENDENCY",`${edge.to} does not exist`)];
+    return [AttentionItem.createAttentionItem(context,"CRITICAL","DEPENDENCY","Missing Dependency",`${edge.to} does not exist`,`${edge.from}:${edge.to}`)];
+     return[];
 
 }
 
@@ -59,6 +63,6 @@ function checkFailedDependency(context){
           return[];
      if(dependencyState.schedule.status !=="FAILED")
           return[];
-     return [AttentionItem.createAttentionItem(context,"HIGH","DEPENDENCY","FAILED DEPENDENCY",`${edge.from} is waiting because of failed ${edge.to}`)];
+     return [AttentionItem.createAttentionItem(context,"HIGH","DEPENDENCY","Failed Dependency",`${edge.from} is waiting because of failed ${edge.to}`,`${edge.from}:${edge.to}`)];
 
 }

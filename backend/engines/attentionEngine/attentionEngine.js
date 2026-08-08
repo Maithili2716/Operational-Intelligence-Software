@@ -8,7 +8,7 @@ import * as ComplianceEngine from "./complianceRules.js";
 
 
 export default class AttentionItem{
-     static createAttentionItem(context,severity,category,title,summary){
+     static createAttentionItem(context,severity,category,title,summary,discriminator=null){
           return{
                severity,
                category,
@@ -16,6 +16,7 @@ export default class AttentionItem{
                entityId:context.entityId,
                title,
                summary,
+               discriminator,
                detectedAt:new Date()
             
           }
@@ -23,7 +24,7 @@ export default class AttentionItem{
 }
 
 export function generateAttention(runtimeModel){
-     const attention= [
+     return [
     ...ScheduleEngine.evaluate(runtimeModel.state),
     ...ResourceEngine.evaluate(runtimeModel.state),
     ...QualityEngine.evaluate(runtimeModel.state),
@@ -31,13 +32,5 @@ export function generateAttention(runtimeModel){
     ...OperationalEngine.evaluate(runtimeModel.state),
     ...ComplianceEngine.evaluate(runtimeModel.state)
 ];
-     const priority={
-          CRITICAL : 4,
-          HIGH:3,
-          MEDIUM:2,
-          LOW:1
-     }
 
-     attention.sort((a,b)=>priority[b.severity]-priority[a.severity]);
-     return attention;
 }

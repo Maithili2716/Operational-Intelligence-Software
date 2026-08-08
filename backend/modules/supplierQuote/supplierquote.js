@@ -17,7 +17,7 @@ export default class SupplierQuote{
                 "PROVIDED_BY_SUPPLIER"
             ),
             new Edge(
-                `SUPLLIER_QUOTE:${row.id}`,
+                `SUPPLIER_QUOTE:${row.id}`,
                 `MATERIAL:${row.material_id}`,
                 "QUOTES_FOR_MATERIAL"
             )

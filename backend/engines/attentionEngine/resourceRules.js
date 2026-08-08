@@ -52,7 +52,7 @@ function checkOutOfStock(context){
         return [];
     return [
         AttentionItem.createAttentionItem(
-          context,"CRITICAL","RESOURCE", "OUT OF STOCK",
+          context,"CRITICAL","RESOURCE", "Out Of Stock",
           `Inventory Item (${context.id}) is out of stock.`,
      )
 
@@ -89,8 +89,8 @@ function checkResourceMismatch(context){
           return [];
      return [
         AttentionItem.createAttentionItem(
-          context,"HIGH","RESOURCE", "RESOURCE MISMATCH",
-          `Inventory Items (${context.id}) are mismatched, resource required is greater than reserved.`,
+          context,"HIGH","RESOURCE", "Resource Mismatch",
+          `Required Inventory Items from (${context.id}) are mismatched, resource required is greater than reserved.`,
      )
 
     ];

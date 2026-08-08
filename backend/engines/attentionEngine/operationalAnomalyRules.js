@@ -48,7 +48,7 @@ function checkUnexpectedStatus(context){
 ];
      if(validStatuses.includes(status))
           return [];   
-     return [AttentionItem.createAttentionItem(context,"HIGH","OPERATIONAL","UNEXPECTED STATUS",`${context.entityType} ${id} state is showing unexpected status`)];
+     return [AttentionItem.createAttentionItem(context,"HIGH","OPERATIONAL","Unexpected Status",`${context.entityType} ${id} state is showing unexpected status`)];
 
 }
 
@@ -90,7 +90,7 @@ function checkStateConflict(context){
     if(conflicts.length === 0)
         return [];
 
-    return [AttentionItem.createAttentionItem(context,"HIGH","OPERATIONAL","STATE CONFLICT",conflicts.join("; "))
+    return [AttentionItem.createAttentionItem(context,"HIGH","OPERATIONAL","State Conflict",conflicts.join("; "))
     ];
 }
 
@@ -105,7 +105,7 @@ function checkImpossibleValues(context){
                 context,
                 "HIGH",
                 "OPERATIONAL",
-                "IMPOSSIBLE VALUES",
+                "Impossible Values",
                 `${context.entityType} ${id} contains impossible schedule values`
             )
         ];

@@ -10,13 +10,7 @@ export default class Shipment{
         );
     }
     static createEdges(row){
-        return [
-            new Edge(
-                `SHIPMENT:${row.id}`,
-                `PURCHASE_ORDER:${row.purchase_order_id}`,
-                "FULFILLS_PURCHASE_ORDER"
-            )
-        ];
+        return [ ];
     }
     static createState(row){
         return new ShipmentState(row);

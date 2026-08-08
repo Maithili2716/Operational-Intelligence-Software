@@ -1,4 +1,5 @@
 import AttentionItem from "./attentionEngine.js"
+import formatDate from "../../utils/formatDate.js";
 
 export function evaluate(runtimeState){
      const attention=[];
@@ -38,10 +39,11 @@ function createContext(id, state){
 
 function checkExplicitDeadline(context){
     const { schedule } = context;
-    const summary=`Past its deadline:${schedule.dueDate}`;
+    
     const title="Deadline Missed"
     const now = new Date();
-    const dueDate = new Date(schedule.dueDate);
+    const dueDate = formatDate(new Date(schedule.dueDate));
+    const summary=`Past its deadline: ${dueDate}`;
     if(!schedule.dueDate)
         return [];
     if(dueDate > now)
