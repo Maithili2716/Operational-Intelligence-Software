@@ -48,7 +48,7 @@ function checkUnexpectedStatus(context){
 ];
      if(validStatuses.includes(status))
           return [];   
-     return [AttentionItem.createAttentionItem(context,"HIGH","OPERATIONAL","Unexpected Status",`${context.entityType} ${id} state is showing unexpected status`)];
+     return [AttentionItem.createAttentionItem(context,"HIGH","OPERATIONAL","Unexpected Status",` ${id} state is showing unexpected status`)];
 
 }
 
@@ -106,7 +106,7 @@ function checkImpossibleValues(context){
                 "HIGH",
                 "OPERATIONAL",
                 "Impossible Values",
-                `${context.entityType} ${id} contains impossible schedule values`
+                `${id} contains impossible schedule values`
             )
         ];
     }

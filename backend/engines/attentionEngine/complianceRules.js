@@ -33,7 +33,7 @@ function checkMissingApproval(context){
      const {compliance}=context;
      if(compliance.approvalStatus === "APPROVED")
           return[]
-     return [AttentionItem.createAttentionItem(context,"HIGH","COMPLIANCE","Missing Approval",`${context.entityType} ${context.entityId} is missing approval`)];
+     return [AttentionItem.createAttentionItem(context,"HIGH","COMPLIANCE","Missing Approval",` ${context.entityId} is missing approval`)];
 
 }
 
@@ -41,7 +41,7 @@ function checkMissingOwner(context){
      const {compliance}=context;
      if(compliance.owner)
           return[];     
-     return [AttentionItem.createAttentionItem(context,"HIGH","COMPLIANCE","Missing Owner",`${context.entityType} ${context.entityId} is missing owner`)];
+     return [AttentionItem.createAttentionItem(context,"HIGH","COMPLIANCE","Missing Owner",` ${context.entityId} is missing owner`)];
 
 }
 
@@ -49,6 +49,6 @@ function checkMandatoryFields(context){
      const {compliance}=context;
      if(compliance.mandatoryFieldsComplete)
           return[];     
-     return [AttentionItem.createAttentionItem(context,"HIGH","COMPLIANCE","Mandatory Fields Missing",`${context.entityType} ${context.entityId} is missing the mandatory fields`)];
+     return [AttentionItem.createAttentionItem(context,"HIGH","COMPLIANCE","Mandatory Fields Missing",` ${context.entityId} is missing the mandatory fields`)];
 
 }

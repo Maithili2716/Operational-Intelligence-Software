@@ -70,7 +70,7 @@ function checkLongPending(context){
     return [
         AttentionItem.createAttentionItem(context,"HIGH","SCHEDULE",
             "Pending Too Long",
-            `${context.entityType} ${context.entityId} has remained pending for ${Math.floor(daysPending)} days.`,
+            ` ${context.entityId} has remained pending for ${Math.floor(daysPending)} days.`,
             
         )
 
@@ -92,7 +92,7 @@ function checkNoProgress(context){
         AttentionItem.createAttentionItem(context,
           "MEDIUM","SCHEDULE",
           "No Progress",
-          `${context.entityType} ${context.entityId} has shown no activity for ${Math.floor(days)} days.`
+          ` ${context.entityId} has shown no activity for ${Math.floor(days)} days.`
         )
 
     ];

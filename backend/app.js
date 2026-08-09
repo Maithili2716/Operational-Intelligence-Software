@@ -5,6 +5,8 @@ import Builder from "./runtime/operationalModelBuilder.js";
 import RuntimeAdapter from "./adapters/runtimeAdapter.js";
 import AttentionAdapter from "./adapters/attentionAdapter.js";
 import {generateAttention} from "./engines/attentionEngine/attentionEngine.js";
+import ActionAdapter from "./adapters/actionAdapter.js";
+import { generateActions } from "./engines/actionEngine/actionEngine.js";
 
 const app = express();
 
@@ -32,5 +34,17 @@ app.get("/attention", async (req, res) => {
         data: AttentionAdapter.adapt(attention)
     });
 });
+
+app.get("/action", async (req, res) => {
+    const runtime = await Builder.build();
+    const action =
+        generateActions(runtime);
+    res.json({
+        success: true,
+        data: ActionAdapter.adapt(action)
+    });
+});
+
+
 
 export default app;
