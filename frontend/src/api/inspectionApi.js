@@ -1,14 +1,5 @@
-import inspections from "../mocks/inspection.mock.js";
-import { success } from "../utils/response";
+import { api } from "./client";
 
-export async function getInspection(attentionId) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(
-                success(
-                    inspections[attentionId]
-                )
-            );
-        }, 300);
-    });
+export async function getInspection() {
+    return api("/inspection");
 }

@@ -1,14 +1,5 @@
-import executions from "../mocks/execution.mock.js";
-import { success } from "../utils/response";
+import { api } from "./client";
 
-export async function getExecution(actionId) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(
-                success(
-                    executions[actionId]
-                )
-            );
-        }, 300);
-    });
+export async function getExecution() {
+    return api("/execution");
 }

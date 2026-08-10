@@ -79,6 +79,7 @@ export default function useSelection() {
         setSelectedNode(null);
         setInspectionOpen(false);
         setExecutionOpen(false);
+        setSelectedMitigation(null);
     }
     return {
         // Hover

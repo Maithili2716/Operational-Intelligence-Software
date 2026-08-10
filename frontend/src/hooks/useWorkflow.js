@@ -45,7 +45,7 @@ export default function useWorkflow() {
     // =====================================
     // Open Investigation
     // =====================================
-    async function openInspection(
+   /* async function openInspection(
         attentionId
     ) {
         try {
@@ -55,6 +55,7 @@ export default function useWorkflow() {
                 await getInspection(
                     attentionId
                 );
+            console.log("inspection:",response);
             if (!response.success) {
                 throw new Error(
                     response.error?.message ??
@@ -75,9 +76,55 @@ export default function useWorkflow() {
         finally {
             setLoading(false);
         }
-    };
+    };*/
 
-    async function openExecution(actionId) {
+    async function openInspection(attentionId) {
+    try {
+
+        setLoading(true);
+        setError(null);
+        const response =
+            await getInspection();
+        console.log("inspection response:", response);
+
+        if (!response.success) {
+            throw new Error(
+                response.error?.message ??
+                "Failed to load inspection."
+            );
+        }
+        const selectedInspection =
+            response.data?.[attentionId];
+        console.log(
+            "selected inspection:",
+            selectedInspection
+        );
+        if (!selectedInspection) {
+            throw new Error(
+                `No inspection found for attention ${attentionId}`
+            );
+        }
+        setInspection(
+            selectedInspection
+        );
+        setWorkflowStage(
+            "inspection"
+        );
+
+    } catch (err) {
+        console.error(
+            "Inspection error:",
+            err
+        );
+
+        setError(err);
+    } finally {
+        setLoading(false);
+
+    }
+}
+
+   /* async function openExecution(actionId) {
     try {
 
         setLoading(true);
@@ -106,7 +153,66 @@ export default function useWorkflow() {
     finally {
         setLoading(false);
     }
+    }*/
+
+    async function openExecution(actionId) {
+    try {
+        setLoading(true);
+        setError(null);
+        const response =
+            await getExecution();
+        console.log(
+            "execution response:",
+            response
+        );
+
+        if (!response.success) {
+
+            throw new Error(
+                response.error?.message ??
+                "Failed to load execution."
+            );
+
+        }
+        const selectedExecution =
+            response.data?.[actionId];
+
+        console.log(
+            "selected execution:",
+            selectedExecution
+        );
+
+        if (!selectedExecution) {
+
+            throw new Error(
+                `No execution found for action ${actionId}`
+            );
+
+        }
+        setExecution(
+            selectedExecution
+        );
+
+        setWorkflowStage(
+            "actionExecution"
+        );
+
     }
+
+    catch (err) {
+        console.error(
+            "Execution error:",
+            err
+        );
+        setError(err);
+
+    }
+    finally {
+        setLoading(false);
+
+    }
+}
+
 
 
 

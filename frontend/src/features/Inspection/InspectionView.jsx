@@ -11,7 +11,8 @@ import ResolutionSection from "./ResolutionSection";
 
 export default function InspectionView({
     inspection,
-    onReviewChanges
+    onReviewChanges,
+    onManualActionSelect
 }) {
     if (!inspection)
         return null;
@@ -27,7 +28,7 @@ export default function InspectionView({
             {/* Analysis */}
 
             <InspectionSection
-                title="Analysis"
+                title="Analysis:"
             >
                 <AnalysisSection
                     analysis={
@@ -76,7 +77,10 @@ export default function InspectionView({
             >
                 <ResolutionSection
                     strategy={
-                        inspection.mitigationStrategy
+                        inspection.mitigationStrategy   
+                    }
+                     onManualActionSelect={
+                        onManualActionSelect
                     }
                 />
             </InspectionSection>

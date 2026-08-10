@@ -17,16 +17,6 @@ export default function AnalysisSection({
 
     return (
         <>
-            {/* Summary */}
-            <p
-                className="
-                    text-sm
-                    leading-6
-                    text-slate-200
-                "
-            >
-                {analysis.summary}
-            </p>
             {/* Root Cause */}
             <div className="mt-5">
                 <div

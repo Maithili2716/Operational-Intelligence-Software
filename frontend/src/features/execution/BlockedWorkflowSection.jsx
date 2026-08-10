@@ -2,6 +2,7 @@
 // Blocked Workflow Section
 // Downstream Operations Waiting
 // =========================================
+import { formatEntityId } from "../../utils/formatEntityId";
 
 export default function BlockedWorkflowSection({
     entities
@@ -48,19 +49,7 @@ export default function BlockedWorkflowSection({
                                         text-slate-100
                                     "
                                 >
-                                    {entity.entityId}
-                                </div>
-
-                                <div
-                                    className="
-                                        mt-1
-                                        text-[11px]
-                                        uppercase
-                                        tracking-[0.14em]
-                                        text-slate-500
-                                    "
-                                >
-                                    {entity.entityType}
+                                    {formatEntityId(entity.entityId)}
                                 </div>
 
                             </div>
@@ -86,16 +75,9 @@ export default function BlockedWorkflowSection({
 
                         {/* Reason */}
 
-                        <p
-                            className="
-                                mt-3
-                                text-sm
-                                leading-6
-                                text-slate-400
-                            "
-                        >
-                            {entity.reason}
-                        </p>
+                        <div className="mt-0.5 max-w-[280px] text-[10px] leading-4 text-slate-500">
+        {entity.reason}
+    </div>
 
                     </div>
 

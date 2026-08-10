@@ -32,6 +32,7 @@ export default function ActionExecutionView({
                     summary={
                         execution.executionSummary
                     }
+                    entityId={execution.entityId}
                 />
             </ExecutionSection>
 

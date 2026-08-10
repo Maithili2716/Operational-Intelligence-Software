@@ -25,6 +25,7 @@ export default function useWorkspace() {
             ]);
             console.log("Runtime:", runtimeResponse);
             console.log("attention:",attentionResponse);
+            
             if (!runtimeResponse.success)
                 throw new Error(
                     runtimeResponse.error?.message ??

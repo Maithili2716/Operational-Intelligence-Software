@@ -42,10 +42,13 @@ export default function Workspace() {
         selectedAction,
         selectedNode,
         selectNode,
+        selectedMitigation,
+        selectMitigation,
         openInspection: selectAttention,
         openExecution:selectAction,
         clearSelection
     } = useSelection();
+
     const {
         workflowStage,
         inspection,
@@ -90,6 +93,20 @@ export default function Workspace() {
     clearSelection();
     resetWorkflow();
     }
+    function handleManualActionSelect(manualAction) {
+    selectMitigation(manualAction);
+    const node =
+        runtime?.graph?.nodes?.find(
+            node =>
+                node.id === manualAction.entityId
+        );
+    if (!node)
+        return;
+    selectNode(node);
+    setSelectedAttention(null);
+    setSelectedAction(null);
+    setSelectedNode(null);
+    }
    
 
     return (
@@ -123,6 +140,7 @@ export default function Workspace() {
                         selectedAttention={selectedAttention}
                         selectedAction={selectedAction}
                         selectedNode={selectedNode}
+                        selectedMitigation={selectedMitigation}
                         hoveredNode={hoveredNode}
                         hoveredEdge={hoveredEdge}
                         onNodeHover={setHoveredNode}
@@ -159,6 +177,9 @@ export default function Workspace() {
                     inspection={inspection}
                     onReviewChanges={
                         reviewChanges
+                    }
+                    onManualActionSelect={
+                        handleManualActionSelect
                     }
                 />
             )

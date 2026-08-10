@@ -32,6 +32,7 @@ export default function RuntimeCanvas({
     onNodeHover,
     onEdgeHover,
     onNodeSelect,
+    selectedMitigation,
     onPaneClick
 }) {
     const scrollContainerRef = useRef(null);
@@ -66,9 +67,11 @@ export default function RuntimeCanvas({
 
     useEffect(() => {
     const selectedEntity =
-        selectedAttention?.entityId ??
-        selectedAction?.entityId ??
-        selectedNode?.id;
+    selectedAttention?.entityId ??
+    selectedAction?.entityId ??
+    selectedMitigation?.entityId ??
+    selectedNode?.id;
+
     if (!selectedEntity)
         return;
     const node = graph.nodes.find(
@@ -92,6 +95,7 @@ export default function RuntimeCanvas({
         graph.nodes,
         selectedAttention,
         selectedAction,
+        selectedMitigation,
         selectedNode
     ]);
     function handlePaneClick() {
