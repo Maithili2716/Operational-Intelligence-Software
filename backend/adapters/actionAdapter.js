@@ -1,4 +1,4 @@
-import formatDate from "../utils/formatDate.js";
+/*import formatDate from "../utils/formatDate.js";
 
 export default class ActionAdapter {
 
@@ -38,7 +38,7 @@ export default class ActionAdapter {
          * PROJECT:2
          * ...
          */
-
+/*
         for (const item of items) {
             const entityNumber =
                 Number(item.entityId.split(":")[1]);
@@ -53,7 +53,7 @@ export default class ActionAdapter {
         const result = [];
         /*
          * Process entity numbers in order.
-         */
+         *//*
         for (
             const number of [...groups.keys()]
                 .sort((a, b) => a - b)
@@ -61,7 +61,7 @@ export default class ActionAdapter {
             const group = groups.get(number);
             /*
              * Earliest action first.
-             */
+             *//*
             group.sort(
                 (a, b) =>
                     new Date(a.createdAt) -
@@ -71,7 +71,7 @@ export default class ActionAdapter {
             /*
              * Try to avoid placing the same entity type
              * immediately after itself.
-             */
+             *//*
             while (group.length > 0) {
                 let index = group.findIndex(
                     item =>
@@ -81,7 +81,7 @@ export default class ActionAdapter {
                 /*
                  * If all remaining items have the same
                  * entity type, there is no alternative.
-                 */
+                 *//*
                 if (index === -1) {
                     index = 0;
                 }
@@ -91,5 +91,33 @@ export default class ActionAdapter {
             }
         }
         return result;
+    }
+}*/
+
+import formatDate from "../utils/formatDate.js";
+import createActionId from "../utils/actionId.js";
+
+export default class ActionAdapter {
+    static adapt(actionItems) {
+        return actionItems.map(item => {
+            const id =
+                createActionId(item);
+            return {
+                id,
+                category:
+                    item.category,
+                entityType:
+                    item.entityType,
+                entityId:
+                    item.entityId,
+                title:
+                    item.title,
+                blockedEntitiesSummary:
+                    item.blockedEntitiesSummary,
+                createdAt:
+                    formatDate(item.createdAt)
+
+            };
+        });
     }
 }

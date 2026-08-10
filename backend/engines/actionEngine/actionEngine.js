@@ -25,17 +25,62 @@ export default class ActionItem {
     }
 }
 
-
 export function generateActions(runtimeModel) {
+    const engineResults = [
+        ApprovalEngine.evaluate(
+            runtimeModel
+        ),
+        EngineeringEngine.evaluate(
+            runtimeModel
+        ),
+        LogisticsEngine.evaluate(
+            runtimeModel
+        ),
+        PlanningEngine.evaluate(
+            runtimeModel
+        ),
+        ProcurementEngine.evaluate(
+            runtimeModel
+        ),
+        QualityEngine.evaluate(
+            runtimeModel
+        )
 
-    const actions = [
-        ...ApprovalEngine.evaluate(runtimeModel),
-        ...ProcurementEngine.evaluate(runtimeModel),
-        ...LogisticsEngine.evaluate(runtimeModel),
-        ...QualityEngine.evaluate(runtimeModel),
-        ...PlanningEngine.evaluate(runtimeModel),
-        ...EngineeringEngine.evaluate(runtimeModel)
     ];
+    return roundRobin(
+        engineResults
+    );
+}
 
-    return actions;
+
+function roundRobin(
+    engineResults
+) {
+    const result = [];
+    let index = 0;
+    let added = true;
+
+    while (added) {
+        added = false;
+        for (
+            const engineItems
+            of engineResults
+        ) {
+
+            if (
+                index <
+                engineItems.length
+            ) {
+
+                result.push(
+                    engineItems[index]
+                );
+
+                added = true;
+            }
+        }
+
+        index++;
+    }
+    return result;
 }
