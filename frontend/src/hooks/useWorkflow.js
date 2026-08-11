@@ -8,6 +8,7 @@ import { getInspection }
     from "../api/inspectionApi";
 import { getExecution }
     from "../api/executionApi";
+import {commitInspection,commitExecution} from "../api/commitApi";
 
 export default function useWorkflow() {
     // =====================================
@@ -241,11 +242,91 @@ export default function useWorkflow() {
     // Commit
     // =====================================
 
-    function beginCommit() {
-        setWorkflowStage(
-            "committing"
+    async function beginCommit() {
+
+    try {
+
+        setLoading(true);
+        setError(null);
+        // =====================================
+        // INSPECTION COMMIT
+        // =====================================
+
+        if (
+            workflowStage === "execution" &&
+            inspection
+        ) {
+
+            const response =
+                await commitInspection(
+                    inspection
+                );
+
+
+            if (!response.success) {
+
+                throw new Error(
+                    response.error?.message ??
+                    "Inspection commit failed."
+                );
+
+            }
+
+
+            setWorkflowStage(
+                "committing"
+            );
+
+            return response.data;
+        }
+
+
+        // =====================================
+        // ACTION EXECUTION COMMIT
+        // =====================================
+
+        if ( workflowStage === "actionExecution" &&
+            execution) 
+        {
+            const response =
+                await commitExecution(
+                    execution
+                );
+            if (!response.success) {        
+            if (response.error?.code ==="COMMIT_CONFLICT")       
+                {
+                throw new Error(
+            "The runtime changed while you were reviewing this update. " +
+            "Please refresh the workspace and inspect the latest state."
+        );
+
+    }
+
+    throw new Error(
+        response.error?.message ??
+        "Commit failed."
+    );
+            }
+            setWorkflowStage(
+                "committing"
+            );
+            return response.data;
+        }
+        throw new Error(
+            "Nothing available to commit."
         );
     }
+    catch (err) {
+        console.error(
+            "Commit error:",
+            err
+        );
+        setError(err);
+    }
+    finally {
+        setLoading(false);
+    }
+}
 
     // =====================================
     // Reset Workflow

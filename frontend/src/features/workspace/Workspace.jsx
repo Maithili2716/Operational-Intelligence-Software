@@ -107,6 +107,23 @@ export default function Workspace() {
     setSelectedAction(null);
     setSelectedNode(null);
     }
+
+    async function handleCommit() {
+    try {
+        await beginCommit();
+        await refreshWorkspace();
+        resetWorkflow();
+        clearSelection();
+    }
+    catch (err) {
+    console.error(
+        "Commit error:",
+        err
+    );
+    setError(err);
+    throw err;
+}
+}
    
 
     return (
@@ -181,6 +198,7 @@ export default function Workspace() {
                     onManualActionSelect={
                         handleManualActionSelect
                     }
+                
                 />
             )
 
@@ -192,7 +210,7 @@ export default function Workspace() {
                         backToInspection
                     }
                     onCommit={
-                        beginCommit 
+                        handleCommit 
                         }
                     
                 />
@@ -202,7 +220,7 @@ export default function Workspace() {
                 <ActionExecutionView
                     execution={execution}
                     onBack={resetWorkflow}
-                    onCommit={beginCommit}
+                    onCommit={handleCommit}
                 />
             )
             : null
