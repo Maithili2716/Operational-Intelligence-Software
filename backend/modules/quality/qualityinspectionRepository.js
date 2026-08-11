@@ -61,7 +61,7 @@ class QualityInspectionRepository{
         const result = await pool.query(`
             UPDATE quality_inspections
             SET
-                status=$1
+                status=$1,
                 good_pieces = $2,
                 faulty_pieces = $3,
                 notification_status =$4,
@@ -86,4 +86,4 @@ class QualityInspectionRepository{
     }
 }
 
-export default new QualityInspectionRepository;
+export default new QualityInspectionRepository();

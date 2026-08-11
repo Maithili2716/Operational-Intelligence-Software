@@ -66,7 +66,7 @@ class ProcurementRepository{
             INSERT INTO procurements(
                 supplier_id,
                 status,
-                expected_delivery,
+                expected_delivery
             )
             VALUES($1,$2,$3)
             RETURNING *

@@ -11,6 +11,9 @@ import { generateInspections } from "./services/inspection/inspectionEngine.js";
 import InspectionAdapter from "./adapters/inspectionAdapter.js";
 import { generateExecutions } from "./services/execution/executionEngine.js";
 import ExecutionAdapter from "./adapters/executionAdapter.js";
+import commitRoute
+    from "./routes/commitRoute.js";
+
 
 const app = express();
 
@@ -111,6 +114,8 @@ app.get("/execution", async (req, res) => {
         });
     }
 });
+
+app.use("/commit",commitRoute);
 
 
 
