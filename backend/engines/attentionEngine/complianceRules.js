@@ -13,9 +13,9 @@ export function evaluate(runtimeState){
         attention.push(
             ...checkMissingOwner(context)
         );
-        attention.push(
+       /* attention.push(
             ...checkMandatoryFields(context)
-        );
+        );*/
     }
     return attention;
 }
@@ -45,10 +45,10 @@ function checkMissingOwner(context){
 
 }
 
-function checkMandatoryFields(context){
+/*function checkMandatoryFields(context){
      const {compliance}=context;
      if(compliance.mandatoryFieldsComplete)
           return[];     
      return [AttentionItem.createAttentionItem(context,"HIGH","COMPLIANCE","Mandatory Fields Missing",` ${context.entityId} is missing the mandatory fields`)];
 
-}
+}*/

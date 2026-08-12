@@ -37,24 +37,27 @@ function createContext(id, state){
 }
 
 
-function checkExplicitDeadline(context){
+function checkExplicitDeadline(context) {
     const { schedule } = context;
-    
-    const title="Deadline Missed"
+
+    if (!schedule.dueDate)
+        return [];
+
     const now = new Date();
-    const dueDate = formatDate(new Date(schedule.dueDate));
-    const summary=`Past its deadline: ${dueDate}`;
-    if(!schedule.dueDate)
+    const dueDate = new Date(schedule.dueDate);
+
+    if (dueDate >= now)
         return [];
-    if(dueDate > now)
-        return [];
+
     return [
-        AttentionItem.createAttentionItem(context,"CRITICAL","SCHEDULE",
-        title,
-        summary,)
-
+        AttentionItem.createAttentionItem(
+            context,
+            "CRITICAL",
+            "SCHEDULE",
+            "Deadline Missed",
+            `Past its deadline: ${formatDate(dueDate)}`
+        )
     ];
-
 }
 
 function checkLongPending(context){

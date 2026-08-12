@@ -276,11 +276,12 @@ export default function useWorkflow() {
             setWorkflowStage(
                 "committing"
             );
+            console.log("commit:",response.data);
 
             return response.data;
         }
 
-
+        
         // =====================================
         // ACTION EXECUTION COMMIT
         // =====================================

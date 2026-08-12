@@ -52,22 +52,39 @@ function checkHighDefectRate(context){
 
 }
 
-function checkInspectionPending(context){
+function checkInspectionPending(context) {
+
     const { quality } = context;
-    if(quality.status=="FAILED")
-     return[];
-    if(!quality.updatedAt)
-     return[];
-    const now=new Date();
-    const updatedAt=new Date(quality.updatedAt);
-     const days =
-        (now - updatedAt) / (1000 * 60 * 60 * 24);
-    if(days <= 7)
+
+    if (quality.status !== "PENDING")
         return [];
-    return [AttentionItem.createAttentionItem(context,"MEDIUM","QUALITY","Inspection Pending",`Inspection ${context.id} has been pending for ${Math.floor(days)} days`)];
 
+    if (!quality.updatedAt)
+        return [];
+
+    const now =
+        new Date();
+
+    const updatedAt =
+        new Date(quality.updatedAt);
+
+    const days =
+        (now - updatedAt) /
+        (1000 * 60 * 60 * 24);
+
+    if (days <= 7)
+        return [];
+
+    return [
+        AttentionItem.createAttentionItem(
+            context,
+            "MEDIUM",
+            "QUALITY",
+            "Inspection Pending",
+            `Inspection ${context.id} has been pending for ${Math.floor(days)} days`
+        )
+    ];
 }
-
 function checkInspectionFailure(context){
     const { quality } = context;
     if(quality.status !=="FAILED")

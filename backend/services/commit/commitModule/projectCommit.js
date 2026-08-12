@@ -145,26 +145,41 @@ export async function commitProject(update) {
         "progress"
     ];
 
+    let matches;
 
-    const matches =
-        numericFields.includes(update.field)
+if (numericFields.includes(update.field)) {
 
-            ? Number(databaseValue) ===
-              Number(update.currentValue)
+    matches =
+        Number(databaseValue) ===
+        Number(update.currentValue);
 
-            : String(databaseValue ?? "") ===
-              String(update.currentValue ?? "");
+}
+else if (
+    update.field === "dueDate" ||
+    update.field === "estimatedCompletionDate"
+) {
 
+    const databaseTime =
+        databaseValue
+            ? new Date(databaseValue).getTime()
+            : null;
 
-    if (!matches) {
+    const currentTime =
+        update.currentValue
+            ? new Date(update.currentValue).getTime()
+            : null;
 
-        throw new Error(
-            `Project ${id} changed before commit. ` +
-            `Expected ${update.field} "${update.currentValue}" ` +
-            `but found "${databaseValue}".`
-        );
+    matches =
+        databaseTime === currentTime;
 
-    }
+}
+else {
+
+    matches =
+        String(databaseValue ?? "") ===
+        String(update.currentValue ?? "");
+
+}
 
 
     // =====================================

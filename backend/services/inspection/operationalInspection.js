@@ -55,7 +55,7 @@ function inspectUnexpectedStatus(
         state.schedule?.status ??
         state.quality?.status ??
         state.resource?.status ??
-        state.status;
+        state.status ;
 
 
     if (!currentStatus)
@@ -237,6 +237,7 @@ function inspectImpossibleValues(
 
     if (!state)
         return null;
+    
 
 
     const invalidFields =

@@ -105,13 +105,6 @@ export async function dispatchCommit(
         // WAREHOUSE
         // =====================================
 
-        case "WAREHOUSE":
-
-            return commitWarehouse(
-                update
-            );
-
-
         // =====================================
         // PROJECT
         // =====================================
