@@ -17,9 +17,9 @@ export function evaluate(runtimeModel) {
             ...checkRescheduleShipment(context)
         );
 
-        actions.push(
+        /*actions.push(
             ...checkAlternateTransporter(context)
-        );
+        );*/
     }
 
     return actions;
@@ -69,7 +69,7 @@ function checkRescheduleShipment(context) {
 }
 
 
-function checkAlternateTransporter(context) {
+/*function checkAlternateTransporter(context) {
     const { state } = context;
     const status =
         state.schedule?.status ??
@@ -85,4 +85,4 @@ function checkAlternateTransporter(context) {
             `${context.entityId} has failed and requires reassignment to an alternate transporter.`
         )
     ];
-}
+}*/
